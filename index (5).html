@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Trading Dashboard</h1>
+    <div class="chart-container">
+        <canvas id="tradingChart"></canvas>
+    </div>
+
+    <script>
+        const chartData = {{ chart_data | tojson }};
+        const ctx = document.getElementById('tradingChart').getContext('2d');
+
+        const tradingChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartData.timestamps,
+                datasets: [{
+                    label: 'Prix de clôture (EUR/USD)',
+                    data: chartData.close_prices,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { display: true, title: { display: true, text: 'Temps' } },
+                    y: { display: true, title: { display: true, text: 'Prix (USDT)' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
